@@ -82,6 +82,8 @@ void applicationTask(void *param)
 
 void setup()
 {
+  esp_task_wdt_init(30, false);
+  
   Serial.begin(115200);
   delay(1000);
   Serial.println("Starting up");
@@ -122,7 +124,7 @@ void setup()
   if (WiFi.waitForConnectResult() != WL_CONNECTED)
   {
     Serial.println("Connection Failed! Rebooting...");
-    delay(5000);
+    delay(700);
     ESP.restart();
   }
   Serial.printf("Total heap: %d\n", ESP.getHeapSize());
@@ -131,7 +133,7 @@ void setup()
   // startup SPIFFS for the wav files
   SPIFFS.begin();
   // make sure we don't get killed for our long running tasks
-  esp_task_wdt_init(10, false);
+  //esp_task_wdt_init(10, false);
 
   // start up the I2S input (from either an I2S microphone or Analogue microphone via the ADC)
 #ifdef USE_I2S_MIC_INPUT
